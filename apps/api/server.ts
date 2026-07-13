@@ -1,0 +1,1 @@
+const connect = require("./config/connect.ts")
