@@ -1,10 +1,15 @@
-import { Db } from "mongodb";
-const { MongoClient, ServerApiVersion } = require('mongodb');
+import { Db, MongoClient, ServerApiVersion } from "mongodb";
 import path from "path";
-require("dotenv").config({ path: path.resolve(__dirname, "../../../.env") });
+import dotenv from "dotenv";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+dotenv.config({ path: path.resolve(__dirname, "../../../.env") });
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(process.env.ATLAS_URI, {
+const client = new MongoClient(process.env.ATLAS_URI as string, {
   serverApi: {
     version: ServerApiVersion.v1,
     strict: true,
@@ -22,7 +27,7 @@ module.exports = {
     return database
   }
 }
-console.log("Hi")
+
 // async function run() {
 //   try {
 //     // Connect the client to the server	(optional starting in v4.7)
