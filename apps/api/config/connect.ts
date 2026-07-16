@@ -1,10 +1,6 @@
 import { Db, MongoClient, ServerApiVersion } from "mongodb";
 import path from "path";
 import dotenv from "dotenv";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 dotenv.config({ path: path.resolve(__dirname, "../../../.env") });
 
@@ -14,19 +10,20 @@ const client = new MongoClient(process.env.ATLAS_URI as string, {
     version: ServerApiVersion.v1,
     strict: true,
     deprecationErrors: true,
-  }
+  },
 });
 
 let database: Db;
 
-module.exports = {
-  connectToServer: () => {
-    database = client.db("blogData")
-  },
-  getDb: () => {
-    return database
-  }
-}
+export const connectToServer = async () => {
+  await client.connect();
+  database = client.db("roleboard");
+  console.log("Connected to MongoDB");
+};
+
+export const getDb = (): Db => {
+  return database;
+};
 
 // async function run() {
 //   try {
