@@ -7,7 +7,5 @@ router.get("/", UsersController.getUsers);
 router.get("/:userID", UsersController.getUsers);
 router.post('/register', UsersController.createUser);
 router.patch('/:userID', UsersController.updateUser);
-// router.post('/logout', logout);
-// router.get('/me', protect, getMe);
 
 export default router
