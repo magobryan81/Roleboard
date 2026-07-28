@@ -7,9 +7,8 @@ const app = express();
 
 app.use(morgan("dev"));
 
-app.use(express.json());
-
-app.use("/api/users", userRoutes);
+// auth routes
+app.use("/auth", userRoutes);
 
 app.use((req, res, next) => {
     next(createHttpError(404, "Endpoint not found"));
