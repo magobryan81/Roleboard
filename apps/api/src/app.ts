@@ -1,28 +1,42 @@
-import express, { Request, Response, NextFunction } from "express";
-import userRoutes from './routes/auth.routes';
+// app.ts
+import express from "express";
+import cors from "cors";
+import cookieParser from "cookie-parser";
 import morgan from "morgan";
-import createHttpError, { isHttpError } from 'http-errors';
+import createHttpError from "http-errors";
+import userRoutes from "./routes/auth.routes";
+import { APP_ORIGIN } from "./constants/env";
+import errorHandler from "./middleware/errorHandler";
 
 const app = express();
 
+// middleware — must come before routes
+app.use(cors({
+  origin: APP_ORIGIN,
+  credentials: true,
+}));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 app.use(morgan("dev"));
 
-// auth routes
+// health check
+app.get("/", (_req, res) => {
+  return res.status(200).json({ status: "healthy" });
+});
+
+// routes
 app.use("/auth", userRoutes);
 
+// 404
 app.use((req, res, next) => {
-    next(createHttpError(404, "Endpoint not found"));
+  next(createHttpError(404, "Endpoint not found"));
 });
 
-app.use((error: unknown, req: Request, res: Response, next: NextFunction) => {
-    console.error(error);
-    let errorMessage = "An unknown error occured";
-    let statusCode = 500;
-    if (isHttpError(error)) {
-        statusCode = error.status;
-        errorMessage = error.message;
-    } 
-    res.status(statusCode).json({ error: errorMessage });
-});
+// error handler
+app.use(errorHandler);
 
 export default app;
+
+
+
