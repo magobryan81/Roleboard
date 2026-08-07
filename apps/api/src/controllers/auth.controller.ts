@@ -1,9 +1,12 @@
 
 import catchErrors from "../utils/catchErrors";
-import { setAuthCookies } from "../utils/cookies";
-import { createAccount, loginUser } from "../services/auth.service";
-import { CREATED, OK } from "../constants/http";
+import { clearAuthCookies, getAccessTokenCookieOptions, getRefreshTokenCookieOptions, setAuthCookies } from "../utils/cookies";
+import { createAccount, loginUser, refreshUserAccessToken } from "../services/auth.service";
+import { CREATED, OK, UNAUTHORIZED } from "../constants/http";
 import { registerSchema, loginSchema } from "./auth.schema";
+import SessionModel from "../models/session.model";
+import { verifyToken } from "../utils/jwt";
+import appAssert from "../utils/appAssert";
 
 export const registerHandler = catchErrors(async (req, res) => {
     // validate request
@@ -21,15 +24,48 @@ export const registerHandler = catchErrors(async (req, res) => {
 });
 
 export const loginHandler = catchErrors(async (req, res) => {
+    // validate request
     const request = loginSchema.parse({
         ...req.body,
         userAgent: req.headers["user-agent"],
     });
 
+    // call service
     const {accessToken, refreshToken} = await loginUser(request);
 
+    // return response (set accessToken every single time)
     return setAuthCookies({ res, accessToken, refreshToken }).status(OK).json({
         message: "Login successful",
     });
 });
+
+export const logoutHandler = catchErrors(async (req, res) => {
+    const accessToken = req.cookies.accessToken;
+    const {payload} = verifyToken(accessToken)
+    
+    if (payload) {
+        await SessionModel.findByIdAndDelete(payload.sessionId);
+    }
+
+    return clearAuthCookies(res).status(OK).json({
+        message: "Logout successful",
+    });
+});
+
+export const refreshHandler = catchErrors(async (req, res) => {
+    const refreshToken = req.cookies.refreshToken as string | undefined;
+    appAssert(refreshToken, UNAUTHORIZED, "Missing refresh token");
+
+    const { accessToken, newRefreshToken } = await refreshUserAccessToken(
+        refreshToken
+    );
+
+    if (refreshToken) {
+        res.cookie("refreshToken", newRefreshToken, getRefreshTokenCookieOptions());
+    }
+
+    return res.status(OK).cookie("accessToken", accessToken, getAccessTokenCookieOptions()).json({
+        message: "Access token refreshed",
+    });
+})
 
