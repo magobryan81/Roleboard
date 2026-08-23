@@ -4,9 +4,11 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import createHttpError from "http-errors";
-import userRoutes from "./routes/auth.routes";
+import authRoutes from "./routes/auth.routes";
+import userRoutes from "./routes/user.routes";
 import { APP_ORIGIN } from "./constants/env";
 import errorHandler from "./middleware/errorHandler";
+import authenticate from "./middleware/authenticate";
 
 const app = express();
 
@@ -25,8 +27,11 @@ app.get("/", (_req, res) => {
   return res.status(200).json({ status: "healthy" });
 });
 
-// routes
-app.use("/auth", userRoutes);
+// auth routes
+app.use("/auth", authRoutes);
+
+// user routes
+app.use("/user", authenticate, userRoutes);
 
 // 404
 app.use((req, res, next) => {

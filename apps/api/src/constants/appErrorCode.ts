@@ -1,5 +1,5 @@
 const enum AppErrorCode {
-    InvalidAcessToken = "InvalidAcessToken",
+    InvalidAccessToken = "InvalidAccessToken",
 }
 
 export default AppErrorCode;
