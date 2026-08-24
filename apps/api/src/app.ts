@@ -6,6 +6,7 @@ import morgan from "morgan";
 import createHttpError from "http-errors";
 import authRoutes from "./routes/auth.routes";
 import userRoutes from "./routes/user.routes";
+import sessionRoutes from "./routes/session.routes";
 import { APP_ORIGIN } from "./constants/env";
 import errorHandler from "./middleware/errorHandler";
 import authenticate from "./middleware/authenticate";
@@ -32,6 +33,9 @@ app.use("/auth", authRoutes);
 
 // user routes
 app.use("/user", authenticate, userRoutes);
+
+// session routes
+app.use("/user", sessionRoutes);
 
 // 404
 app.use((req, res, next) => {
