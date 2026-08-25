@@ -35,7 +35,7 @@ app.use("/auth", authRoutes);
 app.use("/user", authenticate, userRoutes);
 
 // session routes
-app.use("/user", sessionRoutes);
+app.use("/sessions", authenticate, sessionRoutes);
 
 // 404
 app.use((req, res, next) => {
