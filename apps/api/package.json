@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon src/server.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "ts-node-dev --files src/server.ts",
+    "build": "tsc && cp ./package.json ./dist"
   },
   "keywords": [],
   "author": "",
@@ -37,6 +39,7 @@
     "@types/node": "^26.1.1",
     "nodemon": "^3.1.14",
     "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
     "tsx": "^4.23.1",
     "typescript": "^5.4.5"
   }

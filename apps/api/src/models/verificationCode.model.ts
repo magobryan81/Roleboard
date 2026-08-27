@@ -4,6 +4,7 @@ import VerificationCode from "../constants/verificationCode";
 export interface VerificationCodeDocument extends Document {
     userId: Types.ObjectId;
     type: VerificationCode;
+    newEmail?: string;
     expiresAt: Date;
     createdAt: Date;
 }
@@ -16,6 +17,7 @@ const verificationCodeSchema = new Schema<VerificationCodeDocument>({
         index: true,
     },
     type: { type: String, required: true },
+    newEmail: { type: String },
     createdAt: { type: Date, required: true, default: Date.now},
     expiresAt: { type: Date, required: true },
 });
