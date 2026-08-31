@@ -7,6 +7,7 @@ import createHttpError from "http-errors";
 import authRoutes from "./routes/auth.routes";
 import userRoutes from "./routes/user.routes";
 import sessionRoutes from "./routes/session.routes";
+import jobRoutes from "./routes/job.routes";
 import { APP_ORIGIN } from "./constants/env";
 import errorHandler from "./middleware/errorHandler";
 import authenticate from "./middleware/authenticate";
@@ -36,6 +37,9 @@ app.use("/user", authenticate, userRoutes);
 
 // session routes
 app.use("/sessions", authenticate, sessionRoutes);
+
+// job routes
+app.use("/job", authenticate, jobRoutes);
 
 // 404
 app.use((req, res, next) => {
