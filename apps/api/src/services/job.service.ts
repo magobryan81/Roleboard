@@ -1,5 +1,7 @@
 import { JobModel } from "../models/job.model";
-import catchErrors from "../utils/catchErrors";
+import appAssert from "../utils/appAssert";
+import { NOT_FOUND } from "../constants/http";
+import { Types } from "mongoose";
 
 type InterviewParams = {
     stage: string;
@@ -16,13 +18,13 @@ type CreateJobApplicationParams = {
     location?: string | undefined;
     employmentType?: "Full-time" | "Part-time" | "Contract" | "Internship" | undefined;
     salary: number;
-    description?: string | undefined;
+    description: string;
     responsibilities: string[];
     requirements?: string[] | undefined;
 
     // application details
     status: "Saved" | "Applied" | "Interviewing" | "Offer" | "Rejected" | "Withdrawn";
-    dateApplied?: Date | undefined;
+    dateApplied: Date;
     source?: string | undefined;
 
     // people
@@ -37,7 +39,7 @@ type CreateJobApplicationParams = {
 };
 
 export const createJobApplication = async(
-    userId: string,
+    userId: Types.ObjectId,
     data: CreateJobApplicationParams
 ) => {
     // create job application
@@ -47,5 +49,24 @@ export const createJobApplication = async(
     });
 
     // return
+    return { job };
+};
+
+export const updateJobApplication = async(
+    userId: Types.ObjectId,
+    jobId: string,
+    update: Partial<CreateJobApplicationParams>
+) => {
+    const job = await JobModel.findOneAndUpdate(
+        { _id: jobId, userId},
+        { $set: update },
+        { 
+            new: true,
+            runValidators: true
+        }
+    );
+
+    appAssert(job, NOT_FOUND, "Job Application not found");
+    
     return { job };
 }

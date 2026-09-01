@@ -48,6 +48,10 @@ export interface JobDocument extends Document {
     userId: Types.ObjectId;
     createdAt: Date;
     updatedAt: Date;
+
+    // archive
+    archive: Boolean;
+    archivedAt?: Date | null;
 }
 
 const applicationSchema = new Schema<JobDocument>(
@@ -62,7 +66,7 @@ const applicationSchema = new Schema<JobDocument>(
             type: String,
             enum: ["Full-time", "Part-time", "Contract", "Internship"] },
         salary: { type: Number },
-        description: { type: String },
+        description: { type: String, required: true },
         responsibilities: { type: [String], default: [] },
         requirements: { type: [String], default: [] },
 
@@ -72,7 +76,7 @@ const applicationSchema = new Schema<JobDocument>(
             enum: ["Saved", "Applied", "Interviewing", "Offer", "Rejected", "Withdrawn"],
             required: true,
             default: "Saved" },
-        dateApplied: { type: Date },
+        dateApplied: { type: Date, required: true },
         statusUpdatedAt: { type: Date },
         source: { type: String },
 
@@ -92,6 +96,16 @@ const applicationSchema = new Schema<JobDocument>(
             ref: "User",
             required: true,
         },
+
+        // archive
+        archive: {
+            type: Boolean,
+            default: false
+        },
+        archivedAt: {
+            type: Date,
+            default: null,
+        }
     },
     { timestamps: true }
 );

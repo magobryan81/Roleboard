@@ -15,13 +15,13 @@ export const createJobApplicatonSchema = z.object({
     location: z.string().min(1).max(255).optional(),
     employmentType: z.enum(["Full-time", "Part-time", "Contract", "Internship"]).optional(),
     salary: z.number().nonnegative(),
-    description: z.string().min(1).max(255).optional(),
+    description: z.string().min(1).max(255),
     responsibilities: z.array(z.string()).min(1).max(255),
     requirements: z.array(z.string()).min(1).max(255).optional(),
 
     // application tracking
     status: z.enum(["Saved", "Applied", "Interviewing", "Offer", "Rejected", "Withdrawn"]).default("Saved"),
-    dateApplied: z.coerce.date().optional(),
+    dateApplied: z.coerce.date(),
     source: z.string().optional(),
 
     // people
@@ -34,4 +34,6 @@ export const createJobApplicatonSchema = z.object({
     nextActionDate: z.coerce.date().optional(),
     notes: z.string().optional(),
 });
+
+export const updateJobApplicationSchema = createJobApplicatonSchema.partial();
 
