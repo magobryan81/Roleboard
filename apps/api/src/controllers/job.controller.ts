@@ -6,12 +6,14 @@ import appAssert from "../utils/appAssert";
 import { JobModel } from "../models/job.model";
 
 export const getJobHandler = catchErrors(async (req, res) => {
-    const { jobId } = req.params;
-    appAssert(jobId, BAD_REQUEST, "Job ID is required");
-
-    const job = await JobModel.findById(jobId);
-    appAssert(job, NOT_FOUND, "Job Application not found");
-    return res.status(OK).json(job);
+    const userId = req.userId.toString();
+    appAssert(userId, UNAUTHORIZED, "Not Authorized");
+    const jobs = await JobModel.find({
+        userId,
+        archived: { $ne: true },
+    }).sort({createdAt: -1});
+    appAssert(jobs, NOT_FOUND, "No existing Job Application");
+    return res.status(OK).json({jobs});
 });
 
 export const createJobHandler = catchErrors(async (req, res) => {
@@ -37,7 +39,7 @@ export const createJobHandler = catchErrors(async (req, res) => {
 });
 
 export const updateJobHandler = catchErrors(async (req, res) => {
-    const jobId = req.params.id as string;
+    const jobId = req.params.jobId as string;
     const request = updateJobApplicationSchema.parse(req.body);
 
     // check two job and user id

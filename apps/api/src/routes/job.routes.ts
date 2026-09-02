@@ -4,6 +4,7 @@ import * as JobController from "../controllers/job.controller";
 const router = express.Router();
 
 router.post("/create", JobController.createJobHandler);
-router.patch("/:id", JobController.updateJobHandler)
+router.patch("/:jobId", JobController.updateJobHandler)
+router.get("/", JobController.getJobHandler);
 
 export default router;
