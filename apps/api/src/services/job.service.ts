@@ -70,3 +70,40 @@ export const updateJobApplication = async(
     
     return { job };
 }
+
+
+export const updateArchived = async(
+    archived: boolean,
+    userId: string,
+    jobId: string, 
+) => {
+    const updatedJob = await JobModel.findOneAndUpdate(
+        {_id: jobId, userId},
+        { $set: { archived, archivedAt: archived ? new Date() : null }},
+        {
+            new: true,
+        },
+    );
+
+    appAssert(updatedJob, NOT_FOUND, "Job Application not found");
+
+    return { updatedJob };
+}
+
+export const updateUnarchived = async(
+    archived: boolean,
+    userId: string,
+    jobId: string,
+) => {
+    const updatedJob = await JobModel.findOneAndUpdate(
+        {_id: jobId, userId},
+        { $set: { archived, archivedAt: archived ? new Date : null}},
+        {
+            new: true,
+        },
+    );
+
+    appAssert(updatedJob, NOT_FOUND, "Job Application not found");
+
+    return { updatedJob };
+}

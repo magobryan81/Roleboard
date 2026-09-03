@@ -50,7 +50,7 @@ export interface JobDocument extends Document {
     updatedAt: Date;
 
     // archive
-    archive: Boolean;
+    archived: Boolean;
     archivedAt?: Date | null;
 }
 
@@ -98,7 +98,7 @@ const applicationSchema = new Schema<JobDocument>(
         },
 
         // archive
-        archive: {
+        archived: {
             type: Boolean,
             default: false
         },

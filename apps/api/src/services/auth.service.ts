@@ -253,4 +253,5 @@ export const resetPassword = async (
     return {
         user: updatedUser.omitPassword(),
     };
-}
+};
+

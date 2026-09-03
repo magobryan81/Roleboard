@@ -33,6 +33,10 @@ export const createJobApplicatonSchema = z.object({
     interviews: z.array(interviewSchema).optional(),
     nextActionDate: z.coerce.date().optional(),
     notes: z.string().optional(),
+
+    // archived job application
+    archived: z.boolean().default(false),
+    archivedAt: z.coerce.date(),
 });
 
 export const updateJobApplicationSchema = createJobApplicatonSchema.partial();
