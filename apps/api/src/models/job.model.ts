@@ -1,16 +1,28 @@
 import { Schema, model, Document, Types } from "mongoose";
 
+interface InterviewNote {
+    text: string;
+    createdAt: Date;
+};
+
 interface Interview {
-    stage: string;
+    stage?: string;
     date?: Date;
-    notes?: string;
+    notes?: InterviewNote[];
 }
+
+const interviewNoteSchema = new Schema<InterviewNote>(
+    {
+        text: { type: String, required: true },
+        createdAt: { type: Date, default: Date.now },
+    },
+)
 
 const interviewSchema = new Schema<Interview>(
     {
-    stage: { type: String, required: true },
+    stage: { type: String },
     date: { type: Date },
-    notes: { type: String },
+    notes: { type: [interviewNoteSchema], default: [] },
     },
     {_id: false} // no separate _id needed for each interview entry
 );
@@ -40,7 +52,7 @@ export interface JobDocument extends Document {
     referralName?: string;
 
     // process / follow-up
-    interviews?: Interview[];
+    interview?: Interview;
     nextActionDate?: Date;
     notes?: string;
 
@@ -86,7 +98,7 @@ const applicationSchema = new Schema<JobDocument>(
         referralName: { type: String },
 
         // process / follow-up
-        interviews: { type: [interviewSchema], default: [] },
+        interview: { type: interviewSchema },
         nextActionDate: { type: Date },
         notes: { type: String },
 

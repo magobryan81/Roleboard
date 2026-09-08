@@ -1,7 +1,7 @@
 import { CREATED, UNAUTHORIZED, OK, BAD_REQUEST, NOT_FOUND } from "../constants/http";
 import catchErrors from "../utils/catchErrors";
-import { createJobApplicatonSchema, updateJobApplicationSchema } from "./createJob.schema";
-import { createJobApplication, updateJobApplication, updateArchived, updateUnarchived } from "../services/job.service";
+import { createJobApplicatonSchema, updateJobApplicationSchema, interviewStageSchema, interviewNoteSchema } from "./createJob.schema";
+import { createJobApplication, updateJobApplication, updateArchived, updateUnarchived, updateJobInterviewStage, updateJobInterviewNote } from "../services/job.service";
 import appAssert from "../utils/appAssert";
 import { JobModel } from "../models/job.model";
 
@@ -15,6 +15,22 @@ export const getJobHandler = catchErrors(async (req, res) => {
     appAssert(jobs, NOT_FOUND, "No existing Job Application");
     return res.status(OK).json({jobs});
 });
+
+export const getSingleJobHandler = catchErrors(async (req, res) => {
+    const userId = req.userId.toString();
+    const jobId = req.params.jobId as string;
+
+    appAssert(userId, UNAUTHORIZED, "Not Authorized");
+    appAssert(jobId, BAD_REQUEST, "Job ID is required");
+
+    const job = await JobModel.findById({
+        userId,
+        _id: jobId,
+        archived: { $ne: true },
+    })
+    appAssert(job, NOT_FOUND, "No existing Job Application");
+    return res.status(OK).json({job});
+})
 
 export const createJobHandler = catchErrors(async (req, res) => {
     // validate request
@@ -89,5 +105,39 @@ export const unarchiveJobHandler = catchErrors(async (req, res) => {
 
     return res.status(OK).json({
         message: "Job Application successfully unarchived",
+    });
+});
+
+export const updateJobInterviewStageHandler = catchErrors(async (req, res) => {
+    const jobId = req.params.jobId as string;
+    const userId = req.userId;
+
+    appAssert(jobId, BAD_REQUEST, "Job ID is required");
+    appAssert(userId, UNAUTHORIZED, "Not Authorized");
+
+    const { stage } = interviewStageSchema.parse(req.body);
+
+    const { job } = await updateJobInterviewStage(userId.toString(), jobId, stage);
+
+    return res.status(OK).json({
+        job,
+        message: "Job interview stage successfully updated",
+    });
+});
+
+export const updateJobInterviewNoteHandler = catchErrors(async (req, res) => {
+    const jobId = req.params.jobId as string;
+    const userId = req.userId;
+
+    appAssert(jobId, BAD_REQUEST, "Job ID is required");
+    appAssert(userId, UNAUTHORIZED, "Not Authorized");
+
+    const { text } = interviewNoteSchema.parse(req.body);
+
+    const { job } = await updateJobInterviewNote(userId.toString(), jobId, text);
+
+    return res.status(OK).json({
+        job,
+        message: "Job interview notes successfully added",
     });
 });

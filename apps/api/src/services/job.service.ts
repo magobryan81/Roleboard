@@ -1,12 +1,17 @@
 import { JobModel } from "../models/job.model";
 import appAssert from "../utils/appAssert";
-import { NOT_FOUND } from "../constants/http";
+import { INTERNAL_SERVER_ERROR, NOT_FOUND } from "../constants/http";
 import { Types } from "mongoose";
 
+type InterviewNoteParams = {
+    text?: string;
+    createdAt?: Date;
+}
+
 type InterviewParams = {
-    stage: string;
+    stage?: string | undefined;
     date?: Date | undefined;
-    notes?: string | undefined;
+    notes?: InterviewNoteParams[];
 }
 
 type CreateJobApplicationParams = {
@@ -33,7 +38,7 @@ type CreateJobApplicationParams = {
     referralName?: string | undefined;
 
     // process
-    interviews?: InterviewParams[] | undefined;
+    interview?: InterviewParams | undefined;
     nextActionDate?: Date | undefined;
     notes?: string | undefined;
 };
@@ -106,4 +111,36 @@ export const updateUnarchived = async(
     appAssert(updatedJob, NOT_FOUND, "Job Application not found");
 
     return { updatedJob };
+}
+
+export const updateJobInterviewStage = async(
+    userId: string,
+    jobId: string,
+    stage: string,
+) => {
+    const job = await JobModel.findOneAndUpdate(
+        {_id: jobId, userId},
+        { $set: { "interview.stage": stage } },
+        { new: true }
+    );
+
+    appAssert(job, INTERNAL_SERVER_ERROR, "Failed to update job interview stage");
+
+    return { job }
+};
+
+export const updateJobInterviewNote = async(
+    userId: string,
+    jobId: string,
+    text: string,
+) => {
+    const job = await JobModel.findOneAndUpdate(
+        {_id: jobId, userId},
+        { $push: { "interview.stage": { text, createdAt: new Date() } }},
+        { new: true }
+    );
+
+    appAssert(job, INTERNAL_SERVER_ERROR, "Failed to add notes");
+
+    return { job }
 }

@@ -1,10 +1,20 @@
 import { z } from "zod";
 
-const interviewSchema = z.object({
+export const interviewStageSchema = z.object({
     stage: z.string().min(1, "Stage is required"),
+});
+
+export const interviewNoteSchema = z.object({
+    text: z.string().min(1),
+    createdAt: z.coerce.date().optional(),
+});
+
+const interviewSchema = z.object({
+    stage: z.string().min(1).optional(),
     date: z.coerce.date().optional(),
-    notes: z.string().optional(),
-})
+    notes: z.array(interviewNoteSchema).optional(),
+});
+
 
 export const createJobApplicatonSchema = z.object({
     // job details
@@ -30,13 +40,13 @@ export const createJobApplicatonSchema = z.object({
     referralName: z.string().optional(),
 
     // process / follow-up
-    interviews: z.array(interviewSchema).optional(),
+    interview: interviewSchema.optional(),
     nextActionDate: z.coerce.date().optional(),
     notes: z.string().optional(),
 
     // archived job application
-    archived: z.boolean().default(false),
-    archivedAt: z.coerce.date(),
+    // archived: z.boolean().default(false),
+    // archivedAt: z.coerce.date(),
 });
 
 export const updateJobApplicationSchema = createJobApplicatonSchema.partial();
