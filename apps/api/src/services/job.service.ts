@@ -1,6 +1,6 @@
 import { JobModel } from "../models/job.model";
 import appAssert from "../utils/appAssert";
-import { INTERNAL_SERVER_ERROR, NOT_FOUND } from "../constants/http";
+import { BAD_REQUEST, INTERNAL_SERVER_ERROR, NOT_FOUND } from "../constants/http";
 import { Types } from "mongoose";
 
 type InterviewNoteParams = {
@@ -82,7 +82,17 @@ export const updateArchived = async(
     userId: string,
     jobId: string, 
 ) => {
-    const updatedJob = await JobModel.findOneAndUpdate(
+    const existingJob = await JobModel.findOne(
+        {
+            _id: jobId,
+            userId
+        }
+    );
+    appAssert(existingJob, NOT_FOUND, "Job application not found");
+
+    appAssert(!existingJob.archived, BAD_REQUEST, "Job application already archived");
+
+    const job = await JobModel.findOneAndUpdate(
         {_id: jobId, userId},
         { $set: { archived, archivedAt: archived ? new Date() : null }},
         {
@@ -90,9 +100,9 @@ export const updateArchived = async(
         },
     );
 
-    appAssert(updatedJob, NOT_FOUND, "Job Application not found");
+    appAssert(job, NOT_FOUND, "Job Application not found");
 
-    return { updatedJob };
+    return { job };
 }
 
 export const updateUnarchived = async(
@@ -100,7 +110,18 @@ export const updateUnarchived = async(
     userId: string,
     jobId: string,
 ) => {
-    const updatedJob = await JobModel.findOneAndUpdate(
+    const existingJob = await JobModel.findOne(
+        {
+            _id: jobId,
+            userId
+        }
+    );
+    appAssert(existingJob, NOT_FOUND, "Job application not found");
+
+    appAssert(existingJob.archived, BAD_REQUEST, "Job application already unarchived");
+    
+
+    const job = await JobModel.findOneAndUpdate(
         {_id: jobId, userId},
         { $set: { archived, archivedAt: archived ? new Date : null}},
         {
@@ -108,9 +129,9 @@ export const updateUnarchived = async(
         },
     );
 
-    appAssert(updatedJob, NOT_FOUND, "Job Application not found");
+    appAssert(job, NOT_FOUND, "Job Application not found");
 
-    return { updatedJob };
+    return { job };
 }
 
 export const updateJobInterviewStage = async(
@@ -136,7 +157,7 @@ export const updateJobInterviewNote = async(
 ) => {
     const job = await JobModel.findOneAndUpdate(
         {_id: jobId, userId},
-        { $push: { "interview.stage": { text, createdAt: new Date() } }},
+        { $push: { "interview.notes": { text, createdAt: new Date() } }},
         { new: true }
     );
 
