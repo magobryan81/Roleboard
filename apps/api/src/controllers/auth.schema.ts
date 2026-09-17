@@ -10,7 +10,7 @@ export const loginSchema = z.object({
 })
 
 export const registerSchema = loginSchema.extend({
-    name: z.string().min(10).max(255),
+    name: z.string().min(10).max(255).optional(),
     confirmPassword: z.string().min(10).max(255),
 
 }).refine((data) => data.password === data.confirmPassword, {
