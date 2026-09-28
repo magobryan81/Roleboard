@@ -2,7 +2,8 @@ import { Routes, Route } from "react-router-dom";
 import Login from "./routes/login";
 import Register from "./routes/register";
 import VerifyEmail from "./routes/verifyEmail";
-
+import ForgotPassword from "./routes/forgotPassword";
+import ResetPassword from "./routes/resetPassword";
 
 export const AppRoutes = () => {
     return (
@@ -10,6 +11,8 @@ export const AppRoutes = () => {
             <Route path="/" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/email/verify/:code" element={<VerifyEmail />} />
+            <Route path="/password/forgot" element={<ForgotPassword />} />
+            <Route path="/password/reset" element={<ResetPassword />} />
         </Routes>
     );
 };

@@ -25,26 +25,27 @@ const VerifyEmail = () => {
                         </div>
                     ) : (
                     <div className="flex flex-col items-center gap-3">
-                        <div className="border flex items-center justify-center gap-2 px-3 py-2">
+                        <div className="">
                             
                             {isSuccess ? (
-                                <div className="flex gap-2">
-                                    <BadgeCheck color="green" />
-                                    <span>Email Verified</span>
+                                <div className="flex items-center justify-center gap-2 px-3 py-2 bg-[#DFF2BF]">
+                                    <BadgeCheck color="#4F8A10" />
+                                    <span className="text-[#166534]">Email Verified</span>
                                 </div>
                             ) : (
-                                <div className="flex gap-2">
-                                    <BadgeAlert color="red" />
-                                    <span>Invalid Link</span>
+                                <div className="flex items-center justify-center gap-2 px-3 py-2 bg-[#FFBABA]">
+                                    <BadgeAlert color="#D8000C" />
+                                    <span className="text-[#991B1B]">Invalid Link</span>
                                 </div>
                             )}
                         </div>
                         {isError && (
                             <div className="flex gap-2">
-                                <p>The link is either invalid or expired.</p>
+                                <p className="text-gray-400">The link is either invalid or expired.</p>
                                 <Link
                                     to="/password/reset"
                                     replace
+                                    className="text-[#0066cc]"
                                 >
                                     Get a new link
                                 </Link>
@@ -53,6 +54,7 @@ const VerifyEmail = () => {
                         <Link
                             to="/"
                             replace
+                            className="text-[#0066cc]"
                         >
                             Back to Home
                         </Link>

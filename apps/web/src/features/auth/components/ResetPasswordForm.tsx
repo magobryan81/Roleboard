@@ -1,57 +1,56 @@
-import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { registerSchema, type RegisterInput } from "../types/registerSchema";
-import { register as registerUser } from "../../../lib/api";
+import { resetPasswordSchema, type ResetPasswordInput } from "../types/resetPasswordSchema";
+import { resetPassword } from "../../../lib/api";
 import Button from "../../../components/ui/Button";
+import { BadgeCheck } from "lucide-react";
 
 
-const RegisterForm = () => {
-    const navigate = useNavigate();
-    const { register, handleSubmit, formState: { errors, isValid } } = useForm<RegisterInput>({
-        resolver: zodResolver(registerSchema),
+interface ResetPasswordFormProps {
+    code: string
+}
+
+const ResetPasswordForm = ({code}: ResetPasswordFormProps) => {
+    
+
+    const { register, handleSubmit, formState: { errors, isValid } } = useForm<ResetPasswordInput>({
+        resolver: zodResolver(resetPasswordSchema),
         mode: "onChange",
     });
 
     const {
-        mutate: createAccount,
+        mutate: resetUserPassword,
         isPending,
+        isSuccess,
         isError,
         error
     } = useMutation({
-        mutationFn: registerUser,
-        onSuccess:() => {
-            navigate('/home', {
-                replace: true
-            })
-        }
+        mutationFn: resetPassword,
+        
     });
 
-    const onSubmit = (data: RegisterInput) => {
-        createAccount(data);
+    const onSubmit = (data: ResetPasswordInput) => {
+        resetUserPassword({verificationCode: code, password: data.password});
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} autoComplete="off" className="flex flex-col items-center justify-center gap-4 w-full">
+   
+ 
+            
+            <form onSubmit={handleSubmit(onSubmit)} autoComplete="off" className="flex flex-col items-center justify-center gap-4 w-full">
             {isError && (
-                <p className="text-red-400">{error instanceof Error ? error.message : "Email already in use"}</p>
+                <p className="text-red-400">{error instanceof Error ? error.message : "User not found"}</p>
             )}
-            <div className="flex flex-col gap-2 w-full">
-                <label htmlFor="email">Email</label>
-                <input
-                    id="email"
-                    type="email"
-                    {...register("email")}
-                    placeholder="example@gmail.com"
-                    className={`w-full rounded-sm px-4 py-2 border ${
-                        errors.email ? "border-red-500" : "border-border"
-                    }`}
-                />
-                {errors.email && (
-                    <p className="text-red-400">{errors.email.message}</p>
-                )}
+            { isSuccess ? 
+            <div>
+                <div className="flex items-center justify-center gap-2 text-[#166534] text-center">
+                    <BadgeCheck color="#4F8A10" /> 
+                    <span>Password reset successfully.</span>
+                </div>
             </div>
+            :
+            <>
             <div className="flex flex-col gap-2 w-full">
                 <label htmlFor="password">Password</label>
                 <input
@@ -84,12 +83,14 @@ const RegisterForm = () => {
             </div>
             
             <Button type="submit" isLoading={isPending} disabled={!isValid} className={isValid ? "cursor-pointer" : ""}>
-                Create Account
+                Reset Password
             </Button>
-
+            </>
+            }
             
         </form>
+    
     )
 };
 
-export default RegisterForm;
+export default ResetPasswordForm;
