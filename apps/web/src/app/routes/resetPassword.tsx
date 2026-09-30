@@ -1,5 +1,5 @@
-import { AuthLayout } from "../../components/layouts/AuthLayout";
-import ResetPasswordForm from "../../features/auth/components/ResetPasswordForm";
+import { AuthLayout } from "@/components/layouts/AuthLayout";
+import { ResetPasswordForm } from "@/features/auth";
 import { Link } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 import { BadgeCheck } from "lucide-react";

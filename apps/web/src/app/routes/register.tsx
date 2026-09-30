@@ -1,5 +1,5 @@
-import { AuthLayout } from "../../components/layouts/AuthLayout";
-import RegisterForm from "../../features/auth/components/RegisterForm";
+import { AuthLayout } from "@/components/layouts/AuthLayout";
+import { RegisterForm } from "@/features/auth";
 import { Link } from "react-router-dom";
 
 const Register = () => {

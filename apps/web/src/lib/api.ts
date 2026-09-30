@@ -1,8 +1,5 @@
 import API from "../config/apiClient";
-import type { LoginInput } from "../features/auth/types/loginSchema";
-import type { RegisterInput } from "../features/auth/types/registerSchema";
-import type { ForgotPasswordInput } from "../features/auth/types/forgotPasswordSchema";
-import type { ResetPasswordInput } from "../features/auth/types/resetPasswordSchema";
+import type { LoginInput, RegisterInput, ForgotPasswordInput } from "@/features/auth";
 
 export const login = async (data: LoginInput) => API.post("auth/login", data);
 export const register = async (data: RegisterInput) => API.post("auth/register", data);

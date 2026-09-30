@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams, Link } from "react-router-dom";
-import { verifyEmail } from "../../lib/api";
-import { AuthLayout } from "../../components/layouts/AuthLayout";
-import { Spinner } from "../../components/ui/Spinner";
+import { verifyEmail } from "@/lib/api";
+import { AuthLayout } from "@/components/layouts/AuthLayout";
+import { Spinner } from "@/components/ui/Spinner";
 import { BadgeCheck, BadgeAlert } from "lucide-react";
 
 const VerifyEmail = () => {

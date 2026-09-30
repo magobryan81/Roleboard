@@ -2,9 +2,9 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { registerSchema, type RegisterInput } from "../types/registerSchema";
-import { register as registerUser } from "../../../lib/api";
-import Button from "../../../components/ui/Button";
+import { registerSchema, type RegisterInput } from "@/features/auth";
+import { register as registerUser } from "@/lib/api";
+import Button from "@/components/ui/Button";
 
 
 const RegisterForm = () => {
@@ -86,8 +86,6 @@ const RegisterForm = () => {
             <Button type="submit" isLoading={isPending} disabled={!isValid} className={isValid ? "cursor-pointer" : ""}>
                 Create Account
             </Button>
-
-            
         </form>
     )
 };

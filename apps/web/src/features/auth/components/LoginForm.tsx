@@ -2,9 +2,9 @@ import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { loginSchema, type LoginInput } from "../types/loginSchema";
-import { login } from "../../../lib/api";
-import Button from "../../../components/ui/Button";
+import { loginSchema, type LoginInput } from "@/features/auth";
+import { login } from "@/lib/api";
+import Button from "@/components/ui/Button";
 
 
 

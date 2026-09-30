@@ -1,5 +1,5 @@
-import { AuthLayout } from "../../components/layouts/AuthLayout";
-import ForgotPasswordForm from "../../features/auth/components/ForgotPasswordForm";
+import { AuthLayout } from "@/components/layouts/AuthLayout";
+import { ForgotPasswordForm } from "@/features/auth";
 import { Link } from "react-router-dom";
 
 const ForgotPassword = () => {

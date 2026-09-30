@@ -1,5 +1,5 @@
-import { AuthLayout } from "../../components/layouts/AuthLayout";
-import LoginForm from "../../features/auth/components/LoginForm";
+import { AuthLayout } from "@/components/layouts/AuthLayout";
+import { LoginForm } from "@/features/auth";
 import { Link } from "react-router-dom";
 
 const Login = () => {
