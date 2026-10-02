@@ -1,9 +1,25 @@
-import type { ReactNode } from "react";
+import useAuth from "@/hooks/useAuth";
+import { Navigate, Outlet } from "react-router-dom";
+import { Spinner } from "../ui/Spinner";
 
-export const AppLayout = ({ children }: { children: ReactNode }) => {
-    return (
+export const AppLayout = () => {
+    const {user, isLoading} = useAuth();
+
+    return isLoading ? (
+        <div>
+            <Spinner></Spinner>
+        </div>
+    ) : user ? (
         <main className="flex w-full min-h-screen">
-            {children}
+            <Outlet/>
         </main>
-    )
+    ) : (
+        <Navigate
+            to="/"
+            replace
+            state={{
+                redirectUrl: window.location.pathname,
+            }}
+        />
+    );
 };
