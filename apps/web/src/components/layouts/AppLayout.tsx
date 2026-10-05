@@ -6,7 +6,7 @@ export const AppLayout = () => {
     const {user, isLoading} = useAuth();
 
     return isLoading ? (
-        <div>
+        <div className="flex items-center justify-center">
             <Spinner></Spinner>
         </div>
     ) : user ? (

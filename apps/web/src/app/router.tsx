@@ -1,11 +1,11 @@
 import { Routes, Route } from "react-router-dom";
-import Login from "./routes/login";
-import Register from "./routes/register";
-import VerifyEmail from "./routes/verifyEmail";
-import ForgotPassword from "./routes/forgotPassword";
-import ResetPassword from "./routes/resetPassword";
+import Login from "./routes/Login";
+import Register from "./routes/Register";
+import VerifyEmail from "./routes/VerifyEmail";
+import ForgotPassword from "./routes/ForgotPassword";
+import ResetPassword from "./routes/ResetPassword";
 import { AppLayout } from "@/components/layouts/AppLayout";
-import Home from "./routes/home";
+import Home from "./routes/Home";
 
 export const AppRoutes = () => {
     return (
