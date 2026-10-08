@@ -1,5 +1,22 @@
 @import "tailwindcss";
 
+:root {
+    /* 
+        Primary: #FFFFFF (White)
+        Secondary: #A0FF76 (Green)
+    */
+    
+    /* backgrounds */
+    --bg: #FFFFFF;
+
+    /* button */
+    --btn: #A0FF76;
+    --btn-hover: #8FF063;
+    --btn-active: #7EDB54;
+    --btn-text: #152E2C;
+
+}
+
 @theme {
     --breakpoint-laptop: 1366px;
 }
