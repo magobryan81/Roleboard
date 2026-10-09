@@ -24,7 +24,7 @@
     /* font */
     
 
-    /* text sizes (320px to 1280) */
+    /* text sizes (320px to 1280px) */
     --text-xs: clamp(0.75, 0.729rem + 0.104vw, 0.8125rem);
     --text-xs--line-height: 1.5;
 
