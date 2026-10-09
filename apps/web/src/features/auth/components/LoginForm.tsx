@@ -36,7 +36,7 @@ const LoginForm = () => {
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center justify-center gap-8 w-full">
             {isError && (
-                <p className="text-red-400">{error instanceof Error ? error.message : "Invalid username or password"}</p>
+                <p className="text-error">{error instanceof Error ? error.message : "Invalid username or password"}</p>
             )}
             <div className="flex flex-col gap-2 w-full">
                 <label htmlFor="email">Email</label>
@@ -46,11 +46,11 @@ const LoginForm = () => {
                     {...register("email")}
                     placeholder="example@gmail.com"
                     className={`w-full rounded-sm px-4 py-2 border ${
-                        errors.email ? "border-red-500" : "border-border"
+                        errors.email ? "border-error" : "border-border"
                     }`}
                 />
                 {errors.email && (
-                    <p className="text-red-400">{errors.email.message}</p>
+                    <p className="text-error">{errors.email.message}</p>
                 )}
             </div>
             <div className="flex flex-col gap-2 w-full">
@@ -61,18 +61,18 @@ const LoginForm = () => {
                     {...register("password")}
                     placeholder="••••••••"
                     className={`w-full rounded-sm px-4 py-2 border ${
-                        errors.email ? "border-red-500" : "border-border"
+                        errors.email ? "border-error" : "border-border"
                     }`}
                 />
                 {errors.password && (
-                    <p className="text-red-400">{errors.password.message}</p>
+                    <p className="text-error">{errors.password.message}</p>
                 )}
             </div>
 
             <div className="w-full flex justify-end">
                 <Link
                     to="password/forgot"
-                    className="text-[#0066cc] text-right"
+                    className="text-link text-right"
                 >
                     Forgot Password?
                 </Link>

@@ -1,22 +1,58 @@
 @import "tailwindcss";
 
-:root {
-    /* 
-        Primary: #FFFFFF (White)
-        Secondary: #A0FF76 (Green)
-    */
-    
-    /* backgrounds */
-    --bg: #FFFFFF;
-
-    /* button */
-    --btn: #A0FF76;
-    --btn-hover: #8FF063;
-    --btn-active: #7EDB54;
-    --btn-text: #152E2C;
-
-}
+/* 
+    Primary: #FFFFFF (White)
+    Secondary: #A0FF76 (Green)
+*/
 
 @theme {
+    /* background color */
+    --color-background: #FFFFFF;
+
+    /* button and text color */
+    --color-btn: #A0FF76;
+    --color-btn-hover: #8FF063;
+    --color-btn-active: #7EDB54;
+    --color-btn-text: #152E2C;
+
+    --color-label: #152E2C;
+    --color-muted: #5B6B68;
+    --color-disabled: #8A9794;
+    --color-link: #0066cc;
+    --color-error: #b3261E;
+
+    /* font */
+    
+
+    /* text sizes (320px to 1280) */
+    --text-xs: clamp(0.75, 0.729rem + 0.104vw, 0.8125rem);
+    --text-xs--line-height: 1.5;
+
+    --text-sm: clamp(0.875, 0.854rem + 0.104vw, 0.9375rem);
+    --text-sm--line-height: 1.5;
+
+    --text-base: clamp(1rem, 0.985rem + 0.208vw, 1.125rem);
+    --text-base--line-height: 1.5;
+
+    --text-lg: clamp(1.125rem, 1.083rem + 0.208vw, 1.25rem);
+    --text-lg--line height: 1.45;
+
+    --text-xl: clamp(1.25rem, 1.167rem + 0.417vw, 1.5rem);
+    --text-xl--line-height: 1.35;
+
+    --text-2xl: clamp(1.5rem, 1.333rem + 0.833vw, 2rem);
+    --text-2xl--line-height: 1.25;
+
+    --text-3xl: clamp(1.875rem, 1.583rem + 1.458vw, 2.75rem);
+    --text-3xl--line-height: 1.2;
+
+    --text-4xl: clamp(2.25rem, 1.833rem + 2.083vw, 3.5rem);
+    --text-4xl--line-height: 1.15;
+
+    --text-5xl: clamp(2.75rem, 2.167rem + 2.917vw, 4.5rem);
+    --text-5xl--line-height: 1.1;
+
+    --tracking-heading: 0.02rem;
+
     --breakpoint-laptop: 1366px;
 }

@@ -35,7 +35,7 @@ const RegisterForm = () => {
     return (
         <form onSubmit={handleSubmit(onSubmit)} autoComplete="off" className="flex flex-col items-center justify-center gap-4 w-full">
             {isError && (
-                <p className="text-red-400">{error instanceof Error ? error.message : "Email already in use"}</p>
+                <p className="text-error">{error instanceof Error ? error.message : "Email already in use"}</p>
             )}
             <div className="flex flex-col gap-2 w-full">
                 <label htmlFor="email">Email</label>
@@ -45,11 +45,11 @@ const RegisterForm = () => {
                     {...register("email")}
                     placeholder="example@gmail.com"
                     className={`w-full rounded-sm px-4 py-2 border ${
-                        errors.email ? "border-red-500" : "border-border"
+                        errors.email ? "border-error" : "border-border"
                     }`}
                 />
                 {errors.email && (
-                    <p className="text-red-400">{errors.email.message}</p>
+                    <p className="text-error">{errors.email.message}</p>
                 )}
             </div>
             <div className="flex flex-col gap-2 w-full">
@@ -60,11 +60,11 @@ const RegisterForm = () => {
                     {...register("password")}
                     placeholder="Must be 8 characters long"
                     className={`w-full rounded-sm px-4 py-2 border ${
-                        errors.password ? "border-red-500" : "border-border"
+                        errors.password ? "border-error" : "border-border"
                     }`}
                 />
                 {errors.password && (
-                    <p className="text-red-400">{errors.password.message}</p>
+                    <p className="text-error">{errors.password.message}</p>
                 )}
             </div>
             <div className="flex flex-col gap-2 w-full">
@@ -75,11 +75,11 @@ const RegisterForm = () => {
                     {...register("confirmPassword")}
                     placeholder="••••••••"
                     className={`w-full rounded-sm px-4 py-2 border ${
-                        errors.confirmPassword ? "border-red-500" : "border-border"
+                        errors.confirmPassword ? "border-error" : "border-border"
                     }`}
                 />
                 {errors.confirmPassword && (
-                    <p className="text-red-400">{errors.confirmPassword.message}</p>
+                    <p className="text-error">{errors.confirmPassword.message}</p>
                 )}
             </div>
             

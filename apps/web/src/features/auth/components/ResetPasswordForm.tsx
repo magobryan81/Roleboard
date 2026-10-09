@@ -4,7 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import { resetPasswordSchema, type ResetPasswordInput } from "@/features/auth";
 import { resetPassword } from "@/lib/api";
 import Button from "@/components/ui/Button";
-import { BadgeCheck } from "lucide-react";
+import Alert from "@/components/Alert";
 
 
 interface ResetPasswordFormProps {
@@ -35,14 +35,13 @@ const ResetPasswordForm = ({code}: ResetPasswordFormProps) => {
     return (
         <form onSubmit={handleSubmit(onSubmit)} autoComplete="off" className="flex flex-col items-center justify-center gap-4 w-full">
             {isError && (
-                <p className="text-red-400">{error instanceof Error ? error.message : "User not found"}</p>
+                <p className="text-error">{error instanceof Error ? error.message : "User not found"}</p>
             )}
             { isSuccess ? 
                 <div>
-                    <div className="flex items-center justify-center gap-2 text-[#166534] text-center">
-                        <BadgeCheck color="#4F8A10" /> 
-                        <span>Password reset successfully.</span>
-                    </div>
+                    <Alert variant="success">
+                        Password reset successfully.
+                    </Alert>
                 </div>
             :
             <>
@@ -54,11 +53,11 @@ const ResetPasswordForm = ({code}: ResetPasswordFormProps) => {
                         {...register("password")}
                         placeholder="Must be 8 characters long"
                         className={`w-full rounded-sm px-4 py-2 border ${
-                            errors.password ? "border-red-500" : "border-border"
+                            errors.password ? "border-error" : "border-border"
                         }`}
                     />
                     {errors.password && (
-                        <p className="text-red-400">{errors.password.message}</p>
+                        <p className="text-error">{errors.password.message}</p>
                     )}
                 </div>
                 <div className="flex flex-col gap-2 w-full">
@@ -69,11 +68,11 @@ const ResetPasswordForm = ({code}: ResetPasswordFormProps) => {
                         {...register("confirmPassword")}
                         placeholder="••••••••"
                         className={`w-full rounded-sm px-4 py-2 border ${
-                            errors.confirmPassword ? "border-red-500" : "border-border"
+                            errors.confirmPassword ? "border-error" : "border-border"
                         }`}
                     />
                     {errors.confirmPassword && (
-                        <p className="text-red-400">{errors.confirmPassword.message}</p>
+                        <p className="text-error">{errors.confirmPassword.message}</p>
                     )}
                 </div>
                 

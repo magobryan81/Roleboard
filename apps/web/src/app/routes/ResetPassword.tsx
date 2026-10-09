@@ -2,7 +2,7 @@ import { AuthLayout } from "@/components/layouts/AuthLayout";
 import { ResetPasswordForm } from "@/features/auth";
 import { Link } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
-import { BadgeCheck } from "lucide-react";
+import Alert from "@/components/Alert";
 
 const ResetPassword = () => {
     const [searchParams] = useSearchParams();
@@ -19,17 +19,16 @@ const ResetPassword = () => {
                     <div className="flex flex-col justify-center gap-14 w-full">
                         <div className="flex flex-col items-center justify-center gap-8">
                             <div className="flex flex-col gap-2 w-full items-center">
-                                <h2 className="text-4xl font-bold">Reset your Password</h2>
+                                <h2 className="text-2xl font-bold">Reset your Password</h2>
                             </div>
                             <div className="w-full">
                                 { linkIsValid ? 
                                     <ResetPasswordForm code={code}/>
                                     :
                                     <div>
-                                        <div className="flex items-center justify-center gap-2 text-[#FFBABA] text-center">
-                                            <BadgeCheck color="#D8000C" /> 
-                                            <span className="text-[#991B1B]">Invalid link.</span>
-                                        </div>
+                                        <Alert variant="error">
+                                            Invalid Link
+                                        </Alert>
                                     </div>
                                 }
                                 
@@ -40,7 +39,7 @@ const ResetPassword = () => {
                                 </span>
                                 <Link
                                     to="/"
-                                    className="text-[#0066cc] text-right"
+                                    className="text-link text-right"
                                 >
                                     Sign in
                                 </Link>

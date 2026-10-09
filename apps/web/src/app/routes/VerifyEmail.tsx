@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { verifyEmail } from "@/lib/api";
 import { AuthLayout } from "@/components/layouts/AuthLayout";
 import { Spinner } from "@/components/ui/Spinner";
-import { BadgeCheck, BadgeAlert } from "lucide-react";
+import Alert from "@/components/Alert";
 
 const VerifyEmail = () => {
     const { code } = useParams();
@@ -28,15 +28,13 @@ const VerifyEmail = () => {
                         <div className="">
                             
                             {isSuccess ? (
-                                <div className="flex items-center justify-center gap-2 px-3 py-2 bg-[#DFF2BF]">
-                                    <BadgeCheck color="#4F8A10" />
-                                    <span className="text-[#166534]">Email Verified</span>
-                                </div>
+                                <Alert variant="success">
+                                    Email Verified
+                                </Alert>
                             ) : (
-                                <div className="flex items-center justify-center gap-2 px-3 py-2 bg-[#FFBABA]">
-                                    <BadgeAlert color="#D8000C" />
-                                    <span className="text-[#991B1B]">Invalid Link</span>
-                                </div>
+                                <Alert variant="error">
+                                    Invalid Link
+                                </Alert>
                             )}
                         </div>
                         {isError && (
@@ -45,7 +43,7 @@ const VerifyEmail = () => {
                                 <Link
                                     to="/password/reset"
                                     replace
-                                    className="text-[#0066cc]"
+                                    className="text-link"
                                 >
                                     Get a new link
                                 </Link>
@@ -54,7 +52,7 @@ const VerifyEmail = () => {
                         <Link
                             to="/"
                             replace
-                            className="text-[#0066cc]"
+                            className="text-link"
                         >
                             Back to Home
                         </Link>

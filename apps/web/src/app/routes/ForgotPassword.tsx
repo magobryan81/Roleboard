@@ -12,30 +12,28 @@ const ForgotPassword = () => {
                 <div className="flex flex-col justify-center gap-14 w-full">
                     <div className="flex flex-col items-center justify-center gap-8">
                         <div className="flex flex-col gap-2 w-full items-center">
-                            <h2 className="text-4xl font-bold">Reset your Password</h2>
+                            <h2 className="text-2xl font-bold">Reset your Password</h2>
                         </div>
                         <div className="w-full">
                             <ForgotPasswordForm/>
                         </div>
                         <div className="flex justify-center w-full gap-1">
-                            <span className="text-gray-400">
-                                Go back to
-                            </span>
-                            <Link
-                                to="/"
-                                className="text-[#0066cc] text-right"
-                            >
-                                Sign in
-                            </Link>
-                            <span className="text-gray-400">
-                                or
-                            </span>
-                            <Link
-                                to="/register"
-                                className="text-[#0066cc] text-right"
-                            >
-                                Sign up.
-                            </Link>
+                            <p className="text-sm text-muted text-center">
+                                Go back to{" "}
+                                <Link
+                                    to="/"
+                                    className="text-link text-right "
+                                >
+                                    Sign in
+                                </Link>
+                                {" "}or{" "}
+                                <Link
+                                    to="/register"
+                                    className="text-link text-right "
+                                >
+                                    Sign up.
+                                </Link>
+                            </p>
                         </div>
                     </div>
                 </div>

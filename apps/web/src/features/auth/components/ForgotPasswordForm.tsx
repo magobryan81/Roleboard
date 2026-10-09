@@ -4,7 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import { forgotPasswordSchema, type ForgotPasswordInput } from "@/features/auth";
 import { sendPasswordResetEmail } from "@/lib/api";
 import Button from "@/components/ui/Button";
-import { BadgeCheck } from "lucide-react";
+import Alert from "@/components/Alert";
 
 
 const ForgotPasswordForm = () => {
@@ -31,17 +31,15 @@ const ForgotPasswordForm = () => {
     return (
         <>
             { isSuccess ? 
-                <div className=" px-3 py-2 bg-[#DFF2BF]">
-                    
-                    <div className="flex text-[#166534] text-center">
-                        <BadgeCheck color="#4F8A10" /> 
-                        <span>Email sent! Check your inbox for further instructions.</span>
-                    </div>
+                <div>
+                    <Alert variant="success">
+                        Email sent! Check your inbox for further instructions.
+                    </Alert>
                 </div> 
                 :
                 <form onSubmit={handleSubmit(onSubmit)} autoComplete="off" className="flex flex-col items-center justify-center gap-4 w-full">
                     {isError && (
-                        <p className="text-red-400">{error instanceof Error ? error.message : "User not found"}</p>
+                        <p className="text-error">{error instanceof Error ? error.message : "User not found"}</p>
                     )}
                     <div className="flex flex-col gap-2 w-full">
                         <label htmlFor="email">Email</label>
@@ -51,11 +49,11 @@ const ForgotPasswordForm = () => {
                             {...register("email")}
                             placeholder="example@gmail.com"
                             className={`w-full rounded-sm px-4 py-2 border ${
-                                errors.email ? "border-red-500" : "border-border"
+                                errors.email ? "border-error" : "border-border"
                             }`}
                         />
                         {errors.email && (
-                            <p className="text-red-400">{errors.email.message}</p>
+                            <p className="text-error">{errors.email.message}</p>
                         )}
                     </div>
                     
