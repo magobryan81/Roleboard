@@ -8,6 +8,7 @@
 @theme {
     /* background color */
     --color-background: #FFFFFF;
+    --color-surface: #F3F7FA;
 
     /* button and text color */
     --color-btn: #A0FF76;
