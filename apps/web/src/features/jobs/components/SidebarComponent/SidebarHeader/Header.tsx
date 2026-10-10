@@ -1,8 +1,8 @@
-import { useState } from 'react';
+
 import { Menu } from 'lucide-react'
 
 const Header = () => {
-    const [open, isOpen] = useState();
+
     return (
         <div className='flex flex-col gap-4'>
             <div className='flex items-center gap-2'>
