@@ -1,14 +1,12 @@
-
+import { Sidebar } from "@/features/jobs/components/SidebarComponent/Sidebar";
 const Home = () => {
   return (
-    <div>
-      <aside>
-        
-      </aside>
+    <>
+      <Sidebar/>
       <main>
 
       </main>
-    </div>
+    </>
   )
 }
 

@@ -10,5 +10,11 @@ type ResetPasswordParams = {
     password: string
 }
 export const resetPassword = async ({verificationCode, password}: ResetPasswordParams) => API.post("/auth/password/reset", {verificationCode, password});
-
-export const getUser = async () => API.get("/user");
+type User = {
+    _id: string;
+    email: string;
+    verified: boolean;
+    createdAt: string;
+    updatedAt: string;
+}
+export const getUser = async () => API.get<User, User>("/user");
