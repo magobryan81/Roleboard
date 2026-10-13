@@ -150,18 +150,18 @@ export const updateJobInterviewStage = async(
     return { job }
 };
 
-export const updateJobInterviewNote = async(
-    userId: string,
-    jobId: string,
-    text: string,
-) => {
-    const job = await JobModel.findOneAndUpdate(
-        {_id: jobId, userId},
-        { $push: { "interview.notes": { text, createdAt: new Date() } }},
-        { new: true }
-    );
+// export const updateJobInterviewNote = async(
+//     userId: string,
+//     jobId: string,
+//     text: string,
+// ) => {
+//     const job = await JobModel.findOneAndUpdate(
+//         {_id: jobId, userId},
+//         { $push: { "interview.notes": { text, createdAt: new Date() } }},
+//         { new: true }
+//     );
 
-    appAssert(job, INTERNAL_SERVER_ERROR, "Failed to add notes");
+//     appAssert(job, INTERNAL_SERVER_ERROR, "Failed to add notes");
 
-    return { job }
-}
+//     return { job }
+// }

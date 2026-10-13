@@ -1,7 +1,7 @@
 import { CREATED, UNAUTHORIZED, OK, BAD_REQUEST, NOT_FOUND } from "../constants/http";
 import catchErrors from "../utils/catchErrors";
-import { createJobApplicatonSchema, updateJobApplicationSchema, interviewStageSchema, interviewNoteSchema } from "./createJob.schema";
-import { createJobApplication, updateJobApplication, updateArchived, updateUnarchived, updateJobInterviewStage, updateJobInterviewNote } from "../services/job.service";
+import { createJobApplicatonSchema, updateJobApplicationSchema, interviewStageSchema } from "./createJob.schema";
+import { createJobApplication, updateJobApplication, updateArchived, updateUnarchived, updateJobInterviewStage } from "../services/job.service";
 import appAssert from "../utils/appAssert";
 import { JobModel } from "../models/job.model";
 
@@ -125,19 +125,19 @@ export const updateJobInterviewStageHandler = catchErrors(async (req, res) => {
     });
 });
 
-export const updateJobInterviewNoteHandler = catchErrors(async (req, res) => {
-    const jobId = req.params.jobId as string;
-    const userId = req.userId;
+// export const updateJobInterviewNoteHandler = catchErrors(async (req, res) => {
+//     const jobId = req.params.jobId as string;
+//     const userId = req.userId;
 
-    appAssert(jobId, BAD_REQUEST, "Job ID is required");
-    appAssert(userId, UNAUTHORIZED, "Not Authorized");
+//     appAssert(jobId, BAD_REQUEST, "Job ID is required");
+//     appAssert(userId, UNAUTHORIZED, "Not Authorized");
 
-    const { text } = interviewNoteSchema.parse(req.body);
+//     const { text } = interviewNoteSchema.parse(req.body);
 
-    const { job } = await updateJobInterviewNote(userId.toString(), jobId, text);
+//     const { job } = await updateJobInterviewNote(userId.toString(), jobId, text);
 
-    return res.status(OK).json({
-        job,
-        message: "Job interview notes successfully added",
-    });
-});
+//     return res.status(OK).json({
+//         job,
+//         message: "Job interview notes successfully added",
+//     });
+// });
