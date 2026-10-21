@@ -4,15 +4,9 @@ export const interviewStageSchema = z.object({
     stage: z.string().min(1, "Stage is required"),
 });
 
-export const interviewNoteSchema = z.object({
-    text: z.string().min(1),
-    createdAt: z.coerce.date().optional(),
-});
-
 const interviewSchema = z.object({
     stage: z.string().min(1).optional(),
     date: z.coerce.date().optional(),
-    notes: z.array(interviewNoteSchema).optional(),
 });
 
 
@@ -42,8 +36,7 @@ export const createJobApplicatonSchema = z.object({
     // process / follow-up
     interview: interviewSchema.optional(),
     nextActionDate: z.coerce.date().optional(),
-    notes: z.string().optional(),
-
+    
     // archived job application
     // archived: z.boolean().default(false),
     // archivedAt: z.coerce.date(),

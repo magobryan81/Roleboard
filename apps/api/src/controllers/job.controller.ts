@@ -1,9 +1,11 @@
 import { CREATED, UNAUTHORIZED, OK, BAD_REQUEST, NOT_FOUND } from "../constants/http";
 import catchErrors from "../utils/catchErrors";
 import { createJobApplicatonSchema, updateJobApplicationSchema, interviewStageSchema } from "./createJob.schema";
-import { createJobApplication, updateJobApplication, updateArchived, updateUnarchived, updateJobInterviewStage } from "../services/job.service";
+import { createNoteSchema, updateNoteSchema } from "./note.schema";
+import { createJobApplication, updateJobApplication, updateArchived, updateUnarchived, updateJobInterviewStage, createNote, updateNote } from "../services/job.service";
 import appAssert from "../utils/appAssert";
 import { JobModel } from "../models/job.model";
+import mongoose from "mongoose";
 
 export const getJobHandler = catchErrors(async (req, res) => {
     const userId = req.userId.toString();
@@ -125,19 +127,38 @@ export const updateJobInterviewStageHandler = catchErrors(async (req, res) => {
     });
 });
 
-// export const updateJobInterviewNoteHandler = catchErrors(async (req, res) => {
-//     const jobId = req.params.jobId as string;
-//     const userId = req.userId;
+export const createNoteHandler = catchErrors(async (req, res) => {
+    const jobId = req.params.jobId as string;
+    const userId = req.userId;
 
-//     appAssert(jobId, BAD_REQUEST, "Job ID is required");
-//     appAssert(userId, UNAUTHORIZED, "Not Authorized");
+    appAssert(userId, UNAUTHORIZED, "Not Authorized");
 
-//     const { text } = interviewNoteSchema.parse(req.body);
+    const request = createNoteSchema.parse({...req.body});
 
-//     const { job } = await updateJobInterviewNote(userId.toString(), jobId, text);
+    const { note } = await createNote(userId, jobId, request);
 
-//     return res.status(OK).json({
-//         job,
-//         message: "Job interview notes successfully added",
-//     });
-// });
+    return res.status(CREATED).json({
+        note,
+        message: "Notes successfully added",
+    });
+});
+
+export const updateNoteHandler= catchErrors(async (req, res) => {
+    const userId = req.userId;
+    const jobId = req.params.jobId as string;
+    const noteId = req.params.noteId as string;
+
+    appAssert(userId, UNAUTHORIZED, "Not Authorized");
+    appAssert(mongoose.isValidObjectId(jobId), BAD_REQUEST, "Job ID is required");
+    appAssert(mongoose.isValidObjectId(noteId), BAD_REQUEST, "Note ID is required");
+
+    const request = updateNoteSchema.parse(req.body);
+
+    const { note } = await updateNote(userId, jobId, noteId, request);
+
+    return res.status(OK).json({
+        note,
+        message: "Note updated successfully",
+    });
+});
+

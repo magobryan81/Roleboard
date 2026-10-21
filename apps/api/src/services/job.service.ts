@@ -1,4 +1,5 @@
 import { JobModel } from "../models/job.model";
+import { NoteModel } from "../models/note.model";
 import appAssert from "../utils/appAssert";
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR, NOT_FOUND } from "../constants/http";
 import { Types } from "mongoose";
@@ -150,18 +151,42 @@ export const updateJobInterviewStage = async(
     return { job }
 };
 
-// export const updateJobInterviewNote = async(
-//     userId: string,
-//     jobId: string,
-//     text: string,
-// ) => {
-//     const job = await JobModel.findOneAndUpdate(
-//         {_id: jobId, userId},
-//         { $push: { "interview.notes": { text, createdAt: new Date() } }},
-//         { new: true }
-//     );
+type CreateNoteParams = {
+    title: string;
+    content?: string | undefined;
+};
 
-//     appAssert(job, INTERNAL_SERVER_ERROR, "Failed to add notes");
+export const createNote = async(
+    userId: Types.ObjectId,
+    jobId: string,
+    data: CreateNoteParams
+) => {
+    // create note application
+    const note = await NoteModel.create({
+        ...data,
+        userId,
+        jobId,
+    });
+    
+    // return
+    return { note };
+}
 
-//     return { job }
-// }
+export const updateNote = async(
+    userId: Types.ObjectId,
+    jobId: string,
+    noteId: string,
+    data: Partial<CreateNoteParams>,
+) => {
+    const note = await NoteModel.findOneAndUpdate(
+        { _id: noteId, jobId, userId},
+        { $set: data},
+        {
+            new: true,
+            runValidators: true,
+        }
+    );
+    appAssert(note, NOT_FOUND, "Note not found");
+    return { note }
+}
+
