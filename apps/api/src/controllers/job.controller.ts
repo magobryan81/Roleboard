@@ -1,6 +1,6 @@
 import { CREATED, UNAUTHORIZED, OK, BAD_REQUEST, NOT_FOUND } from "../constants/http";
 import catchErrors from "../utils/catchErrors";
-import { createJobApplicatonSchema, updateJobApplicationSchema, interviewStageSchema } from "./createJob.schema";
+import { createJobApplicatonSchema, updateJobApplicationSchema, interviewStageSchema } from "./job.schema";
 import { createNoteSchema, updateNoteSchema } from "./note.schema";
 import { createJobApplication, updateJobApplication, updateArchived, updateUnarchived, updateJobInterviewStage, createNote, updateNote } from "../services/job.service";
 import appAssert from "../utils/appAssert";
