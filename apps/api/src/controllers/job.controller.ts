@@ -23,7 +23,7 @@ export const getSingleJobHandler = catchErrors(async (req, res) => {
     const jobId = req.params.jobId as string;
 
     appAssert(userId, UNAUTHORIZED, "Not Authorized");
-    appAssert(jobId, BAD_REQUEST, "Job ID is required");
+    appAssert(jobId, BAD_REQUEST, "Job ID is missing");
 
     const job = await JobModel.findById({
         userId,
