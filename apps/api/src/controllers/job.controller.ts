@@ -88,7 +88,7 @@ export const archiveJobHandler = catchErrors(async (req, res) => {
     );
 
     return res.status(OK).json({
-        message: "Job Application successfully archived",
+        message: "Job application successfully archived",
     });
 });
 
