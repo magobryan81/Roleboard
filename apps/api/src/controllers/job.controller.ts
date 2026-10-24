@@ -149,7 +149,7 @@ export const updateNoteHandler= catchErrors(async (req, res) => {
     const noteId = req.params.noteId as string;
 
     appAssert(userId, UNAUTHORIZED, "Not Authorized");
-    appAssert(mongoose.isValidObjectId(jobId), BAD_REQUEST, "Job ID is required");
+    appAssert(mongoose.isValidObjectId(jobId), BAD_REQUEST, "Job ID is missing");
     appAssert(mongoose.isValidObjectId(noteId), BAD_REQUEST, "Note ID is required");
 
     const request = updateNoteSchema.parse(req.body);
