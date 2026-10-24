@@ -30,7 +30,7 @@ export const getSingleJobHandler = catchErrors(async (req, res) => {
         _id: jobId,
         archived: { $ne: true },
     })
-    appAssert(job, NOT_FOUND, "No existing Job Application");
+    appAssert(job, NOT_FOUND, "No existing job application");
     return res.status(OK).json({job});
 })
 
