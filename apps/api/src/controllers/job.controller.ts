@@ -139,7 +139,7 @@ export const createNoteHandler = catchErrors(async (req, res) => {
 
     return res.status(CREATED).json({
         note,
-        message: "Notes successfully added",
+        message: "Note successfully added",
     });
 });
 
