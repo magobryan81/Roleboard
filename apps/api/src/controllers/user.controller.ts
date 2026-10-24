@@ -48,6 +48,6 @@ export const verifyEmailHandler = catchErrors(async (req, res) => {
     await verifyEmail(verificationCode);
 
     return res.status(OK).json({
-        message: "Email was successful verified",
+        message: "Email was successfully verified",
     })
 })
