@@ -14,7 +14,7 @@ export const getNoteHandler = catchErrors(async (req, res) => {
         userId,
     })
 
-    appAssert(notes, NOT_FOUND, "Notes not found");
+    appAssert(notes, NOT_FOUND, "No existing notes");
     return res.status(OK).json({notes})
 })
 
