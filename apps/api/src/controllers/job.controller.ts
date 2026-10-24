@@ -61,7 +61,7 @@ export const updateJobHandler = catchErrors(async (req, res) => {
     const userId = req.userId;
     
     // check two job and user id
-    appAssert(jobId, BAD_REQUEST, "Job ID is missing");
+    appAssert(jobId, BAD_REQUEST, "Job ID is required");
     appAssert(userId, UNAUTHORIZED, "Not Authorized");
 
     const request = updateJobApplicationSchema.parse(req.body);
