@@ -114,7 +114,7 @@ export const updateJobInterviewStageHandler = catchErrors(async (req, res) => {
     const jobId = req.params.jobId as string;
     const userId = req.userId;
 
-    appAssert(jobId, BAD_REQUEST, "Job ID is required");
+    appAssert(jobId, BAD_REQUEST, "Job ID is missing");
     appAssert(userId, UNAUTHORIZED, "Not Authorized");
 
     const { stage } = interviewStageSchema.parse(req.body);
