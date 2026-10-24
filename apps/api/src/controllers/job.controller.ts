@@ -14,7 +14,7 @@ export const getJobHandler = catchErrors(async (req, res) => {
         userId,
         archived: { $ne: true },
     }).sort({createdAt: -1});
-    appAssert(jobs, NOT_FOUND, "No existing Job Application");
+    appAssert(jobs, NOT_FOUND, "No existing job application");
     return res.status(OK).json({jobs});
 });
 
