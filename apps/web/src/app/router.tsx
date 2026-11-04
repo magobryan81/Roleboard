@@ -10,7 +10,7 @@ import Home from "./routes/Home";
 export const AppRoutes = () => {
     return (
         <Routes>
-            <Route path="/" element={<AppLayout />}>
+            <Route path="/job" element={<AppLayout />}>
                 <Route index element={<Home />} />
             </Route>
             <Route path="/login" element={<Login />} />
