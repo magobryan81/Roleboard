@@ -5,15 +5,8 @@ import { Link } from "react-router-dom";
 const Login = () => {
     return (
         <AuthLayout>
-            {/* Application preview section */}
-            <section className="hidden laptop:flex flex-1 items-center justify-center border-r">
-                {/* content */}
-                <div>
-                    Preview
-                </div>
-            </section>
             {/* Login form section */}
-            <section className="flex flex-1 flex-col laptop:flex-none items-center justify-center laptop:w-[30%]">
+            <section className="flex flex-col items-center justify-center w-full">
                 {/* content */}
                 <div className="flex flex-col gap-24 md:w-[80%] max-w-md mx-auto h-[70%] p-8">
                     <h2 className="text-4xl font-bold">Roleboard</h2>
