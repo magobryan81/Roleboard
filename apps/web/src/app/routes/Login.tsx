@@ -8,8 +8,8 @@ const Login = () => {
             {/* Login form section */}
             <section className="flex flex-col items-center justify-center w-full">
                 {/* content */}
-                <div className="flex flex-col gap-24 md:w-[80%] max-w-md mx-auto h-[70%] p-8">
-                    <h2 className="text-4xl font-bold">Roleboard</h2>
+                <div className="flex flex-col items-center gap-24 md:w-[80%] max-w-md mx-auto h-[70%] p-8">
+                    <img src="../../../public/roleboard-logo.png" alt="logo" height={100} width={100} />
                     <div className="flex flex-col justify-center gap-14">
                         <div className="flex flex-col items-center justify-center gap-8">
                             <div className="flex flex-col items-center justify-center">
