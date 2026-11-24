@@ -15,7 +15,6 @@ import { sendMail } from "../utils/sendMail";
 import { getPasswordResetTemplate, getVerifyEmailTemplate } from "../utils/emailTemplate";
 
 type CreateAccountParams = {
-    name: string;
     email: string;
     password: string;
     userAgent?: string | undefined;
@@ -29,7 +28,6 @@ export const createAccount = async (data: CreateAccountParams) => {
     appAssert(!existingUser, CONFLICT, "Email already in use");
     // create user
     const user = await UserModel.create({
-        name: data.name,
         email: data.email,
         password: data.password,
     })

@@ -8,6 +8,7 @@ import authRoutes from "./routes/auth.routes";
 import userRoutes from "./routes/user.routes";
 import sessionRoutes from "./routes/session.routes";
 import jobRoutes from "./routes/job.routes";
+import noteRoutes from "./routes/note.routes";
 import { APP_ORIGIN } from "./constants/env";
 import errorHandler from "./middleware/errorHandler";
 import authenticate from "./middleware/authenticate";
@@ -40,6 +41,9 @@ app.use("/sessions", authenticate, sessionRoutes);
 
 // job routes
 app.use("/job", authenticate, jobRoutes);
+
+
+app.use("/note", authenticate, noteRoutes);
 
 // 404
 app.use((req, res, next) => {

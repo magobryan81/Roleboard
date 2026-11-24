@@ -10,6 +10,7 @@ router.patch("/:jobId", JobController.updateJobHandler)
 router.patch("/:jobId/archived", JobController.archiveJobHandler);
 router.patch("/:jobId/unarchived", JobController.unarchiveJobHandler);
 router.patch("/:jobId/interview/stage", JobController.updateJobInterviewStageHandler);
-router.post("/:jobId/interview/note", JobController.updateJobInterviewNoteHandler);
+router.post("/:jobId/note", JobController.createNoteHandler);
+router.patch("/:jobId/note/:noteId", JobController.updateNoteHandler);
 
 export default router;

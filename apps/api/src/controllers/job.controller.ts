@@ -1,9 +1,11 @@
 import { CREATED, UNAUTHORIZED, OK, BAD_REQUEST, NOT_FOUND } from "../constants/http";
 import catchErrors from "../utils/catchErrors";
-import { createJobApplicatonSchema, updateJobApplicationSchema, interviewStageSchema, interviewNoteSchema } from "./createJob.schema";
-import { createJobApplication, updateJobApplication, updateArchived, updateUnarchived, updateJobInterviewStage, updateJobInterviewNote } from "../services/job.service";
+import { createJobApplicatonSchema, updateJobApplicationSchema, interviewStageSchema } from "./job.schema";
+import { createNoteSchema, updateNoteSchema } from "./note.schema";
+import { createJobApplication, updateJobApplication, updateArchived, updateUnarchived, updateJobInterviewStage, createNote, updateNote } from "../services/job.service";
 import appAssert from "../utils/appAssert";
 import { JobModel } from "../models/job.model";
+import mongoose from "mongoose";
 
 export const getJobHandler = catchErrors(async (req, res) => {
     const userId = req.userId.toString();
@@ -12,7 +14,7 @@ export const getJobHandler = catchErrors(async (req, res) => {
         userId,
         archived: { $ne: true },
     }).sort({createdAt: -1});
-    appAssert(jobs, NOT_FOUND, "No existing Job Application");
+    appAssert(jobs, NOT_FOUND, "No existing job application");
     return res.status(OK).json({jobs});
 });
 
@@ -21,14 +23,14 @@ export const getSingleJobHandler = catchErrors(async (req, res) => {
     const jobId = req.params.jobId as string;
 
     appAssert(userId, UNAUTHORIZED, "Not Authorized");
-    appAssert(jobId, BAD_REQUEST, "Job ID is required");
+    appAssert(jobId, BAD_REQUEST, "Job ID is missing");
 
     const job = await JobModel.findById({
         userId,
         _id: jobId,
         archived: { $ne: true },
     })
-    appAssert(job, NOT_FOUND, "No existing Job Application");
+    appAssert(job, NOT_FOUND, "No existing job application");
     return res.status(OK).json({job});
 })
 
@@ -59,7 +61,7 @@ export const updateJobHandler = catchErrors(async (req, res) => {
     const userId = req.userId;
     
     // check two job and user id
-    appAssert(jobId, BAD_REQUEST, "Job ID is required");
+    appAssert(jobId, BAD_REQUEST, "Job ID is missing");
     appAssert(userId, UNAUTHORIZED, "Not Authorized");
 
     const request = updateJobApplicationSchema.parse(req.body);
@@ -76,7 +78,7 @@ export const archiveJobHandler = catchErrors(async (req, res) => {
     const jobId = req.params.jobId as string;
     const userId = req.userId;
 
-    appAssert(jobId, BAD_REQUEST, "Job ID is required");
+    appAssert(jobId, BAD_REQUEST, "Job ID is missing");
     appAssert(userId, UNAUTHORIZED, "Not Authorized");
 
     await updateArchived(
@@ -86,7 +88,7 @@ export const archiveJobHandler = catchErrors(async (req, res) => {
     );
 
     return res.status(OK).json({
-        message: "Job Application successfully archived",
+        message: "Job application successfully archived",
     });
 });
 
@@ -94,7 +96,7 @@ export const unarchiveJobHandler = catchErrors(async (req, res) => {
     const jobId = req.params.jobId as string;
     const userId = req.userId;
 
-    appAssert(jobId, BAD_REQUEST, "Job ID is required");
+    appAssert(jobId, BAD_REQUEST, "Job ID is missing");
     appAssert(userId, UNAUTHORIZED, "Not Authorized");
 
     await updateUnarchived(
@@ -112,7 +114,7 @@ export const updateJobInterviewStageHandler = catchErrors(async (req, res) => {
     const jobId = req.params.jobId as string;
     const userId = req.userId;
 
-    appAssert(jobId, BAD_REQUEST, "Job ID is required");
+    appAssert(jobId, BAD_REQUEST, "Job ID is missing");
     appAssert(userId, UNAUTHORIZED, "Not Authorized");
 
     const { stage } = interviewStageSchema.parse(req.body);
@@ -125,19 +127,38 @@ export const updateJobInterviewStageHandler = catchErrors(async (req, res) => {
     });
 });
 
-export const updateJobInterviewNoteHandler = catchErrors(async (req, res) => {
+export const createNoteHandler = catchErrors(async (req, res) => {
     const jobId = req.params.jobId as string;
     const userId = req.userId;
 
-    appAssert(jobId, BAD_REQUEST, "Job ID is required");
     appAssert(userId, UNAUTHORIZED, "Not Authorized");
 
-    const { text } = interviewNoteSchema.parse(req.body);
+    const request = createNoteSchema.parse({...req.body});
 
-    const { job } = await updateJobInterviewNote(userId.toString(), jobId, text);
+    const { note } = await createNote(userId, jobId, request);
 
-    return res.status(OK).json({
-        job,
-        message: "Job interview notes successfully added",
+    return res.status(CREATED).json({
+        note,
+        message: "Note successfully added",
     });
 });
+
+export const updateNoteHandler= catchErrors(async (req, res) => {
+    const userId = req.userId;
+    const jobId = req.params.jobId as string;
+    const noteId = req.params.noteId as string;
+
+    appAssert(userId, UNAUTHORIZED, "Not Authorized");
+    appAssert(mongoose.isValidObjectId(jobId), BAD_REQUEST, "Job ID is missing");
+    appAssert(mongoose.isValidObjectId(noteId), BAD_REQUEST, "Note ID is missing");
+
+    const request = updateNoteSchema.parse(req.body);
+
+    const { note } = await updateNote(userId, jobId, noteId, request);
+
+    return res.status(OK).json({
+        note,
+        message: "Note updated successfully",
+    });
+});
+
