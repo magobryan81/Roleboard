@@ -22,7 +22,7 @@ const RegisterForm = () => {
     } = useMutation({
         mutationFn: registerUser,
         onSuccess:() => {
-            navigate('/home', {
+            navigate('/job', {
                 replace: true
             })
         }
