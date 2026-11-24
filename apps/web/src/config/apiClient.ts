@@ -10,8 +10,17 @@ const API = axios.create(options);
 API.interceptors.response.use(
     (response) => response.data,
     (error) => {
-        const { status, data } = error.response;
-        return Promise.reject({ status, ...data });
+        if (error.response) {
+            const { status, data } = error.response;
+            return Promise.reject({ status, ...data });
+        }
+
+        // no response at all: server offline, network down, or blocked
+        return Promise.reject({
+            status: 0,
+            message: "Can't reach the server. Please try again in a moment.",
+        });
+
     }
 );
 
