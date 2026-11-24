@@ -35,7 +35,7 @@ const RegisterForm = () => {
     return (
         <form onSubmit={handleSubmit(onSubmit)} autoComplete="off" className="flex flex-col items-center justify-center gap-4 w-full">
             {isError && (
-                <p className="text-error">{error instanceof Error ? error.message : "Email already in use"}</p>
+                <p className="text-error">{error instanceof Error ? error.message : "Something went wrong. Please try again."}</p>
             )}
             <div className="flex flex-col gap-2 w-full">
                 <label htmlFor="email">Email</label>
