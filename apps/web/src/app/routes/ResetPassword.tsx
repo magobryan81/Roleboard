@@ -48,7 +48,7 @@ const ResetPassword = () => {
                                 </span>
                                 <Link
                                     to="/register"
-                                    className="text-link text-right"
+                                    className="text-[#0066cc] text-right"
                                 >
                                     Sign up.
                                 </Link>
